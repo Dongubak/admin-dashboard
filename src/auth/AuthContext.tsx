@@ -9,9 +9,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!auth.token || !auth.refreshToken || !auth.user) {
-      logout();
-    }
+    // if (!auth.token || !auth.refreshToken || !auth.user) {
+    //   logout();
+    // }
   }, []);
 
   const logout = () => {
