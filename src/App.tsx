@@ -1,27 +1,31 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './auth/AuthContext';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-
-// 관리자 회원 관리 페이지 import
 import MemberListPage from './pages/MemberListPage';
 import MemberDetailPage from './pages/MemberDetailPage';
 import MemberEditPage from './pages/MemberEditPage';
+import AdminLayout from './layouts/AdminLayout';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          {/* 기본 라우트 */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Dashboard />} />
+          {/* 기본 진입 시 /login으로 이동 */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
 
-          {/* 관리자 회원 관리 페이지 */}
-          <Route path="/members" element={<MemberListPage />} />
-          <Route path="/members/:id" element={<MemberDetailPage />} />
-          <Route path="/members/:id/edit" element={<MemberEditPage />} />
+          {/* 로그인 페이지 */}
+          <Route path="/login" element={<Login />} />
+
+          {/* 관리자 전용 레이아웃 */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="members" element={<MemberListPage />} />
+            <Route path="members/:id" element={<MemberDetailPage />} />
+            <Route path="members/:id/edit" element={<MemberEditPage />} />
+          </Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>
