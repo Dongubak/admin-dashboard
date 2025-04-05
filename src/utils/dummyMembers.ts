@@ -43,4 +43,4 @@ export interface Member {
       updatedAt: `2025-03-${String((i % 28) + 1).padStart(2, '0')}`,
     }));
   };
-  
+  export const dummyMembers = generateDummyData(30);

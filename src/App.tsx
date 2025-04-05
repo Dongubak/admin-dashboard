@@ -3,9 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './auth/AuthContext';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-import MemberListPage from './pages/MemberListPage';
-import MemberDetailPage from './pages/MemberDetailPage';
-import MemberEditPage from './pages/MemberEditPage';
+import MemberListPage from './pages/members/MemberListPage';
+import MemberDetailPage from './pages/members/MemberDetailPage';
+import MemberEditPage from './pages/members/MemberEditPage';
 import AdminLayout from './layouts/AdminLayout';
 
 function App() {
@@ -25,6 +25,8 @@ function App() {
             <Route path="members" element={<MemberListPage />} />
             <Route path="members/:id" element={<MemberDetailPage />} />
             <Route path="members/:id/edit" element={<MemberEditPage />} />
+            <Route path="/admin/members/:id/edit" element={<MemberEditPage />} />
+
           </Route>
         </Routes>
       </AuthProvider>
