@@ -1,4 +1,8 @@
-export const setAuthData = (token: string, refreshToken: string, user: object) => {
+export const setAuthData = (
+  token: string,
+  refreshToken: string,
+  user: object
+) => {
   localStorage.setItem('token', token);
   localStorage.setItem('RT', refreshToken);
   localStorage.setItem('user', JSON.stringify(user));
