@@ -1,14 +1,32 @@
 import React from 'react';
-import { Outlet, Link, useLocation, Navigate, useNavigate } from 'react-router-dom';
+import {
+  Outlet,
+  Link,
+  useLocation,
+  Navigate,
+  useNavigate,
+} from 'react-router-dom';
 import styled from 'styled-components';
-import { LogOut, LayoutDashboard, Users, ClipboardList, FileText, Bell, ShieldCheck, CalendarX2, Ban, Settings, MessageSquare } from 'lucide-react';
+import {
+  LogOut,
+  LayoutDashboard,
+  Users,
+  ClipboardList,
+  FileText,
+  Bell,
+  ShieldCheck,
+  CalendarX2,
+  Ban,
+  Settings,
+  MessageSquare,
+} from 'lucide-react';
 
 const AdminLayout: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   if (location.pathname === '/') {
-    return <Navigate to="/login" replace />;
+    return <Navigate to='/login' replace />;
   }
 
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -26,26 +44,46 @@ const AdminLayout: React.FC = () => {
           <SidebarDivider />
           <SectionLabel>메인</SectionLabel>
           <NavList>
-            <NavItem to="/admin/dashboard"><LayoutDashboard size={18} /> 대시보드</NavItem>
-            <NavItem to="/admin/members"><Users size={18} /> 회원 목록</NavItem>
+            <NavItem to='/admin/dashboard'>
+              <LayoutDashboard size={18} /> 대시보드
+            </NavItem>
+            <NavItem to='/admin/members'>
+              <Users size={18} /> 회원 목록
+            </NavItem>
           </NavList>
 
           <SidebarDivider />
           <SectionLabel>관리 기능</SectionLabel>
           <NavList>
-            <NavItem to="/admin/requests"><ClipboardList size={18} /> 가입 요청</NavItem>
-            <NavItem to="/admin/withdrawals"><FileText size={18} /> 탈퇴 신청</NavItem>
-            <NavItem to="/admin/roles"><ShieldCheck size={18} /> 권한 부여</NavItem>
-            <NavItem to="/admin/notices"><Bell size={18} /> 공지 등록</NavItem>
-            <NavItem to="/admin/reservations"><CalendarX2 size={18} /> 예약 로그</NavItem>
-            <NavItem to="/admin/courts"><Ban size={18} /> 코트 제어</NavItem>
+            <NavItem to='/admin/requests'>
+              <ClipboardList size={18} /> 가입 요청
+            </NavItem>
+            <NavItem to='/admin/withdrawals'>
+              <FileText size={18} /> 탈퇴 신청
+            </NavItem>
+            <NavItem to='/admin/roles'>
+              <ShieldCheck size={18} /> 권한 부여
+            </NavItem>
+            <NavItem to='/admin/notices'>
+              <Bell size={18} /> 공지 등록
+            </NavItem>
+            <NavItem to='/admin/reservations'>
+              <CalendarX2 size={18} /> 예약 로그
+            </NavItem>
+            <NavItem to='/admin/courts'>
+              <Ban size={18} /> 코트 제어
+            </NavItem>
           </NavList>
 
           <SidebarDivider />
           <SectionLabel>기타</SectionLabel>
           <NavList>
-            <NavItem to="#"><Settings size={18} /> 설정</NavItem>
-            <NavItem to="#"><MessageSquare size={18} /> 피드백</NavItem>
+            <NavItem to='#'>
+              <Settings size={18} /> 설정
+            </NavItem>
+            <NavItem to='#'>
+              <MessageSquare size={18} /> 피드백
+            </NavItem>
           </NavList>
         </SidebarContent>
 
@@ -112,10 +150,10 @@ const Logo = styled.div`
 `;
 
 const SidebarDivider = styled.div`
-    height: 1px;
-    background-color: #94a3b8; // 잘 보이는 회색
-    margin: 0.75rem 0 0.25rem; // 위·아래 여백 적당
-    opacity: 1;
+  height: 1px;
+  background-color: #94a3b8; // 잘 보이는 회색
+  margin: 0.75rem 0 0.25rem; // 위·아래 여백 적당
+  opacity: 1;
 `;
 
 const SectionLabel = styled.div`

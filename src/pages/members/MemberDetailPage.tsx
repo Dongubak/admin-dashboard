@@ -29,16 +29,32 @@ const MemberDetailPage: React.FC = () => {
     <Container>
       <Header>
         <h2>{member.name} 님 상세 정보</h2>
-        <EditButton onClick={() => navigate(`/admin/members/${member.id}/edit`)}>수정하기</EditButton>
+        <EditButton
+          onClick={() => navigate(`/admin/members/${member.id}/edit`)}
+        >
+          수정하기
+        </EditButton>
       </Header>
 
       <DetailBox>
-        <DetailItem><strong>이름:</strong> {member.name}</DetailItem>
-        <DetailItem><strong>전화번호:</strong> {member.phone}</DetailItem>
-        <DetailItem><strong>지점:</strong> {member.branch}</DetailItem>
-        <DetailItem><strong>역할:</strong> {member.role}</DetailItem>
-        <DetailItem><strong>성별:</strong> {member.gender}</DetailItem>
-        <DetailItem><strong>생년월일:</strong> {member.birth}</DetailItem>
+        <DetailItem>
+          <strong>이름:</strong> {member.name}
+        </DetailItem>
+        <DetailItem>
+          <strong>전화번호:</strong> {member.phone}
+        </DetailItem>
+        <DetailItem>
+          <strong>지점:</strong> {member.branch}
+        </DetailItem>
+        <DetailItem>
+          <strong>역할:</strong> {member.role}
+        </DetailItem>
+        <DetailItem>
+          <strong>성별:</strong> {member.gender}
+        </DetailItem>
+        <DetailItem>
+          <strong>생년월일:</strong> {member.birth}
+        </DetailItem>
       </DetailBox>
     </Container>
   );

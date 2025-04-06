@@ -33,19 +33,19 @@ const Login = () => {
     <Container>
       <Form>
         <InputGroup>
-          <Label htmlFor="identifier">아이디</Label>
+          <Label htmlFor='identifier'>아이디</Label>
           <Input
-            id="identifier"
+            id='identifier'
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
           />
         </InputGroup>
 
         <InputGroup>
-          <Label htmlFor="password">비밀번호</Label>
+          <Label htmlFor='password'>비밀번호</Label>
           <Input
-            id="password"
-            type="password"
+            id='password'
+            type='password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

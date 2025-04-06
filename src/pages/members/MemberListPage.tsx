@@ -47,7 +47,10 @@ const MemberListPage: React.FC = () => {
             <React.Fragment key={m.id}>
               <tr
                 onClick={() => handleRowClick(m.id)}
-                style={{ cursor: 'pointer', backgroundColor: selectedId === m.id ? '#eef2ff' : 'white' }}
+                style={{
+                  cursor: 'pointer',
+                  backgroundColor: selectedId === m.id ? '#eef2ff' : 'white',
+                }}
               >
                 <td>{m.id}</td>
                 <td>{m.name}</td>
@@ -58,10 +61,20 @@ const MemberListPage: React.FC = () => {
                 <tr>
                   <td colSpan={4}>
                     <DetailBox>
-                      <DetailItem><strong>역할:</strong> {m.role}</DetailItem>
-                      <DetailItem><strong>성별:</strong> {m.gender}</DetailItem>
-                      <DetailItem><strong>생년월일:</strong> {m.birth}</DetailItem>
-                      <EditButton onClick={() => navigate(`/admin/members/${m.id}`)}>상세 보기</EditButton>
+                      <DetailItem>
+                        <strong>역할:</strong> {m.role}
+                      </DetailItem>
+                      <DetailItem>
+                        <strong>성별:</strong> {m.gender}
+                      </DetailItem>
+                      <DetailItem>
+                        <strong>생년월일:</strong> {m.birth}
+                      </DetailItem>
+                      <EditButton
+                        onClick={() => navigate(`/admin/members/${m.id}`)}
+                      >
+                        상세 보기
+                      </EditButton>
                     </DetailBox>
                   </td>
                 </tr>
@@ -90,7 +103,8 @@ const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
 
-  th, td {
+  th,
+  td {
     padding: 0.75rem;
     text-align: left;
     border-bottom: 1px solid #e5e7eb;

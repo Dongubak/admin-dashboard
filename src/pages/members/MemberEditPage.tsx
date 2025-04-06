@@ -33,7 +33,9 @@ const MemberEditPage: React.FC = () => {
     setFormData(dummy);
   }, [id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     if (!formData) return;
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -52,34 +54,39 @@ const MemberEditPage: React.FC = () => {
       <h2>회원 정보 수정</h2>
       <FormGroup>
         <label>이름</label>
-        <input name="name" value={formData.name} onChange={handleChange} />
+        <input name='name' value={formData.name} onChange={handleChange} />
       </FormGroup>
       <FormGroup>
         <label>전화번호</label>
-        <input name="phone" value={formData.phone} onChange={handleChange} />
+        <input name='phone' value={formData.phone} onChange={handleChange} />
       </FormGroup>
       <FormGroup>
         <label>지점</label>
-        <input name="branch" value={formData.branch} onChange={handleChange} />
+        <input name='branch' value={formData.branch} onChange={handleChange} />
       </FormGroup>
       <FormGroup>
         <label>역할</label>
-        <select name="role" value={formData.role} onChange={handleChange}>
-          <option value="member">일반 회원</option>
-          <option value="trainer">트레이너</option>
-          <option value="admin">관리자</option>
+        <select name='role' value={formData.role} onChange={handleChange}>
+          <option value='member'>일반 회원</option>
+          <option value='trainer'>트레이너</option>
+          <option value='admin'>관리자</option>
         </select>
       </FormGroup>
       <FormGroup>
         <label>성별</label>
-        <select name="gender" value={formData.gender} onChange={handleChange}>
-          <option value="남성">남성</option>
-          <option value="여성">여성</option>
+        <select name='gender' value={formData.gender} onChange={handleChange}>
+          <option value='남성'>남성</option>
+          <option value='여성'>여성</option>
         </select>
       </FormGroup>
       <FormGroup>
         <label>생년월일</label>
-        <input name="birth" type="date" value={formData.birth} onChange={handleChange} />
+        <input
+          name='birth'
+          type='date'
+          value={formData.birth}
+          onChange={handleChange}
+        />
       </FormGroup>
 
       <ButtonRow>
