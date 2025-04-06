@@ -14,19 +14,21 @@ function App() {
       <AuthProvider>
         <Routes>
           {/* 기본 진입 시 /login으로 이동 */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path='/' element={<Navigate to='/login' replace />} />
 
           {/* 로그인 페이지 */}
-          <Route path="/login" element={<Login />} />
+          <Route path='/login' element={<Login />} />
 
           {/* 관리자 전용 레이아웃 */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="members" element={<MemberListPage />} />
-            <Route path="members/:id" element={<MemberDetailPage />} />
-            <Route path="members/:id/edit" element={<MemberEditPage />} />
-            <Route path="/admin/members/:id/edit" element={<MemberEditPage />} />
-
+          <Route path='/admin' element={<AdminLayout />}>
+            <Route path='dashboard' element={<Dashboard />} />
+            <Route path='members' element={<MemberListPage />} />
+            <Route path='members/:id' element={<MemberDetailPage />} />
+            <Route path='members/:id/edit' element={<MemberEditPage />} />
+            <Route
+              path='/admin/members/:id/edit'
+              element={<MemberEditPage />}
+            />
           </Route>
         </Routes>
       </AuthProvider>
