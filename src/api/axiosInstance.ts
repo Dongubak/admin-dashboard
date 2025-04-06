@@ -34,7 +34,7 @@ instance.interceptors.response.use(
   (res) => res,
   async (err) => {
     const originalRequest = err.config;
-    const { refreshToken } = getAuthData();
+    const { RT: refreshToken } = getAuthData();
 
     if (err.response?.status === 401 && err.response?.code === 'T001') {
       if (isRefreshing) {
@@ -53,8 +53,8 @@ instance.interceptors.response.use(
           refreshToken,
         });
 
-        const { token, refreshToken: newRT, user } = response.data;
-        setAuthData(token, newRT, user);
+        const { token, RT, user } = response.data;
+        setAuthData(token, RT, user);
         processQueue(null, token);
 
         originalRequest.headers['Authorization'] = `Bearer ${token}`;

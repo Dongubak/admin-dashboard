@@ -16,12 +16,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = () => {
     clearAuthData();
-    setAuth({ token: null, refreshToken: null, user: null });
+    setAuth({ token: null, RT: null, user: null });
     navigate('/login');
   };
 
-  const login = (token: string, refreshToken: string, user: object) => {
-    setAuth({ token, refreshToken, user });
+  const login = (token: string, RT: string, user: object) => {
+    setAuth({ token, RT, user });
   };
 
   return (

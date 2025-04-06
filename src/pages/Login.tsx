@@ -20,9 +20,9 @@ const Login = () => {
         password,
       });
 
-      const { token, refreshToken, user } = res.data;
-      setAuthData(token, refreshToken, user);
-      setAuth(token, refreshToken, user);
+      const { token, RT, user } = res.data;
+      setAuthData(token, RT, user);
+      setAuth(token, RT, user);
       navigate('/');
     } catch (e) {
       console.log(e);
