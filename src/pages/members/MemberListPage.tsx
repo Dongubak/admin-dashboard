@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { dummyMembers } from '../../utils/dummyMembers';
 import instance from '../../api/axiosInstance';
 
+// ✅ API에서 내려오는 회원 타입 정의
 interface Member {
-  id: number;
+  identifier: string; // ← id 대신
   name: string;
   phone: string;
   branch: string;
@@ -16,40 +16,33 @@ interface Member {
 
 const MemberListPage: React.FC = () => {
   const [members, setMembers] = useState<Member[]>([]);
-  const [loading, setLoading] = useState<Boolean>(false);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  // ✅ 데이터 로딩
   useEffect(() => {
-    // setMembers(dummyMembers);
-    (async function memberFetch() {
-      setLoading(true);
+    (async () => {
       try {
-        const response = await instance.get('/api/admin/modify-info');
-        console.log(response.data.users);
-        setMembers(response.data.users);
-      } catch(e) {
-        console.log(e);
+        const res = await instance.get('/api/admin/modify-info');
+        setMembers(res.data.users); // 서버에서 받은 회원 목록 세팅
+      } catch (error) {
+        console.error('회원 목록 불러오기 실패', error);
       }
-      setLoading(false);
     })();
   }, []);
 
-  const handleRowClick = (id: number) => {
-    if (selectedId === id) {
-      setSelectedId(null); // 이미 선택된 경우 해제
-    } else {
-      setSelectedId(id); // 새로 선택된 경우 업데이트
-    }
+  // ✅ 클릭 시 열기/닫기 토글
+  const handleRowClick = (identifier: string) => {
+    setSelectedId((prev) => (prev === identifier ? null : identifier));
   };
 
   return (
     <Container>
       <Title>회원 목록</Title>
-      <Table>
+      <StyledTable>
         <thead>
           <tr>
-            <th>번호</th>
+            <th>식별자</th>
             <th>이름</th>
             <th>전화번호</th>
             <th>지점</th>
@@ -57,20 +50,23 @@ const MemberListPage: React.FC = () => {
         </thead>
         <tbody>
           {members.map((m) => (
-            <React.Fragment key={m.id}>
+            <React.Fragment key={m.identifier}>
               <tr
-                onClick={() => handleRowClick(m.id)}
+                onClick={() => handleRowClick(m.identifier)}
                 style={{
                   cursor: 'pointer',
-                  backgroundColor: selectedId === m.id ? '#eef2ff' : 'white',
+                  backgroundColor:
+                    selectedId === m.identifier ? '#eef2ff' : 'white',
                 }}
               >
-                <td>{m.id}</td>
+                <td>{m.identifier}</td>
                 <td>{m.name}</td>
                 <td>{m.phone}</td>
                 <td>{m.branch}</td>
               </tr>
-              {selectedId === m.id && (
+
+              {/* 🔽 선택된 회원만 상세 정보 노출 */}
+              {selectedId === m.identifier && (
                 <tr>
                   <td colSpan={4}>
                     <DetailBox>
@@ -84,7 +80,9 @@ const MemberListPage: React.FC = () => {
                         <strong>생년월일:</strong> {m.birth}
                       </DetailItem>
                       <EditButton
-                        onClick={() => navigate(`/admin/members/${m.id}`)}
+                        onClick={() =>
+                          navigate(`/admin/members/${m.identifier}`)
+                        }
                       >
                         상세 보기
                       </EditButton>
@@ -95,24 +93,26 @@ const MemberListPage: React.FC = () => {
             </React.Fragment>
           ))}
         </tbody>
-      </Table>
+      </StyledTable>
     </Container>
   );
 };
 
 export default MemberListPage;
 
+// ✅ 스타일
+
 const Container = styled.div`
-  padding: 2rem;
+  padding: 1rem 2rem;
 `;
 
 const Title = styled.h2`
   font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 0; /* ⬅︎ 아래쪽만 여백 */
 `;
 
-const Table = styled.table`
+const StyledTable = styled.table`
   width: 100%;
   border-collapse: collapse;
 
@@ -121,6 +121,10 @@ const Table = styled.table`
     padding: 0.75rem;
     text-align: left;
     border-bottom: 1px solid #e5e7eb;
+  }
+
+  thead {
+    background-color: #f3f4f6;
   }
 `;
 
@@ -148,4 +152,8 @@ const EditButton = styled.button`
   border: none;
   border-radius: 6px;
   cursor: pointer;
+
+  &:hover {
+    background-color: #4338ca;
+  }
 `;

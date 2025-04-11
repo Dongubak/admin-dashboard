@@ -223,7 +223,7 @@ const Header = styled.header`
   height: 64px;
   min-height: 64px;
   background-color: #ffffff;
-  padding: 0 2rem;
+  padding: 0 5rem;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #e5e7eb;
