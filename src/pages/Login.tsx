@@ -8,8 +8,8 @@ import { useAuth } from '../auth/useAuth';
 const baseURL = process.env.REACT_APP_BACKEND_API;
 
 const Login = () => {
-  const [identifier, setIdentifier] = useState('testusersdd');
-  const [password, setPassword] = useState('aaaaaaaa');
+  const [identifier, setIdentifier] = useState('manager1');
+  const [password, setPassword] = useState('managerpass1');
   const { setAuth } = useAuth();
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const Login = () => {
       const { token, RT, user } = res.data;
       setAuthData(token, RT, user);
       setAuth(token, RT, user);
-      navigate('/');
+      navigate('/admin');
     } catch (e) {
       console.log(e);
     }

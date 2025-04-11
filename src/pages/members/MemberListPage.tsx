@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { dummyMembers } from '../../utils/dummyMembers';
+import instance from '../../api/axiosInstance';
 
 interface Member {
   id: number;
@@ -15,11 +16,23 @@ interface Member {
 
 const MemberListPage: React.FC = () => {
   const [members, setMembers] = useState<Member[]>([]);
+  const [loading, setLoading] = useState<Boolean>(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setMembers(dummyMembers);
+    // setMembers(dummyMembers);
+    (async function memberFetch() {
+      setLoading(true);
+      try {
+        const response = await instance.get('/api/admin/modify-info');
+        console.log(response.data.users);
+        setMembers(response.data.users);
+      } catch(e) {
+        console.log(e);
+      }
+      setLoading(false);
+    })();
   }, []);
 
   const handleRowClick = (id: number) => {
