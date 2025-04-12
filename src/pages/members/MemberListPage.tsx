@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import instance from '../../api/axiosInstance';
 
@@ -18,10 +18,10 @@ const MemberListPage: React.FC = () => {
   const [members, setMembers] = useState<Member[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const navigate = useNavigate();
-
+  
   // ✅ 데이터 로딩
   useEffect(() => {
-    (async () => {
+    (async function fetchMemberList() {
       try {
         const res = await instance.get('/api/admin/modify-info');
         setMembers(res.data.users); // 서버에서 받은 회원 목록 세팅
@@ -32,41 +32,56 @@ const MemberListPage: React.FC = () => {
   }, []);
 
   // ✅ 클릭 시 열기/닫기 토글
-  const handleRowClick = (identifier: string) => {
-    setSelectedId((prev) => (prev === identifier ? null : identifier));
-  };
+  const handleRowClick = useCallback((identifier: string) => {
+    if(selectedId === identifier) { /// 이전 거랑 같은거 누름
+      setSelectedId(null);
+      navigate(`/admin/members`);
+    } else {
+      setSelectedId(identifier);
+      navigate(`/admin/members/${identifier}`);   
+    }
+  }, [selectedId, navigate]);
 
   return (
     <Container>
       <Title>회원 목록</Title>
       <StyledTable>
-        <thead>
-          <tr>
-            <th>식별자</th>
-            <th>이름</th>
-            <th>전화번호</th>
-            <th>지점</th>
-          </tr>
-        </thead>
-        <tbody>
-          {members.map((m) => (
-            <React.Fragment key={m.identifier}>
-              <tr
-                onClick={() => handleRowClick(m.identifier)}
-                style={{
-                  cursor: 'pointer',
-                  backgroundColor:
-                    selectedId === m.identifier ? '#eef2ff' : 'white',
-                }}
-              >
-                <td>{m.identifier}</td>
-                <td>{m.name}</td>
-                <td>{m.phone}</td>
-                <td>{m.branch}</td>
-              </tr>
+        <Thead>
+          <Tr>
+            <Th>식별자</Th>
+            <Th>이름</Th>
+            <Th>전화번호</Th>
+            <Th>지점</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {
+            members.map((m) => (
+              (<>
+                  <Tr
+                    onClick={() => handleRowClick(m.identifier)}
+                    style={{
+                        cursor: 'pointer',
+                        backgroundColor:
+                          selectedId === m.identifier ? '#eef2ff' : 'white',
+                      }
+                    }
+                    key={m.identifier}
+                  >
+                    <Td>{m.identifier}</Td>
+                    <Td>{m.name}</Td>
+                    <Td>{m.phone}</Td>
+                    <Td>{m.branch}</Td>
+                  </Tr>
+                {
+                  m.identifier === selectedId ? <Outlet /> : null
+                }
+              </>)
+            ))
+          }
 
               {/* 🔽 선택된 회원만 상세 정보 노출 */}
-              {selectedId === m.identifier && (
+              {/* {selectedId === m.identifier && (
                 <tr>
                   <td colSpan={4}>
                     <DetailBox>
@@ -89,10 +104,8 @@ const MemberListPage: React.FC = () => {
                     </DetailBox>
                   </td>
                 </tr>
-              )}
-            </React.Fragment>
-          ))}
-        </tbody>
+              )} */}
+        </Tbody>
       </StyledTable>
     </Container>
   );
@@ -157,3 +170,42 @@ const EditButton = styled.button`
     background-color: #4338ca;
   }
 `;
+
+const Tbody = styled.tbody`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+`
+
+const Thead = styled.thead`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: stretch;
+`
+
+const Tr = styled.tr`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: stretch;
+`
+
+const Td = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 34rem;
+  padding: 1rem 0 1rem 0;
+`
+
+const Th = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 34rem;
+  padding: 1rem 0 1rem 0;
+`

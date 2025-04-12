@@ -22,8 +22,9 @@ function App() {
           {/* 관리자 전용 레이아웃 */}
           <Route path='/admin' element={<AdminLayout />}>
             <Route path='dashboard' element={<Dashboard />} />
-            <Route path='members' element={<MemberListPage />} />
-            <Route path='members/:id' element={<MemberDetailPage />} />
+            <Route path='members' element={<MemberListPage />}>
+              <Route path=':id' element={<MemberDetailPage />} />
+            </Route>
             <Route path='members/:id/edit' element={<MemberEditPage />} />
             <Route
               path='/admin/members/:id/edit'
