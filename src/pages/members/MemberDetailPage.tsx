@@ -120,33 +120,38 @@ const MemberDetailPage: React.FC = () => {
 export default MemberDetailPage;
 
 const Container = styled.div`
-  max-width: 720px;
+  width: 100%;
+  max-width: 1440px; // 💡 리스트와 동일하게
   margin: 0 auto;
   padding: 2rem;
-  background-color: #f9fafb;
+  background-color: #ffffff;
+  border-top: 1px solid #e5e7eb; // 선택적으로 분리감
 `;
 
 const Header = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: flex-start;
+  gap: 49.15rem;
   margin-bottom: 2rem;
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: #1f2937;
+    font-weight: 700;
   }
 `;
 
 const EditButton = styled.button`
-  padding: 0.5rem 1rem;
+  padding: 0.55rem 1.2rem;
   background-color: #4f46e5;
   color: white;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 0.95rem;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.2s;
 
   &:hover {
     background-color: #4338ca;
@@ -154,25 +159,29 @@ const EditButton = styled.button`
 `;
 
 const GroupTitle = styled.h3`
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #334155;
-  margin: 2rem 0 1rem;
+  margin: 2.5rem 0 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.3rem;
 `;
 
 const DetailGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.2rem;
 `;
 
 const DetailItem = styled.div`
-  font-size: 0.96rem;
+  font-size: 1rem;
+  line-height: 1.6;
   color: #374151;
 
   strong {
     display: inline-block;
-    min-width: 100px;
+    min-width: 110px;
+    font-weight: 600;
     color: #111827;
   }
 `;

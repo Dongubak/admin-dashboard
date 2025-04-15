@@ -3,9 +3,8 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import instance from '../../api/axiosInstance';
 
-// ✅ API에서 내려오는 회원 타입 정의
 interface Member {
-  identifier: string; // ← id 대신
+  identifier: string;
   name: string;
   phone: string;
   branch: string;
@@ -18,194 +17,144 @@ const MemberListPage: React.FC = () => {
   const [members, setMembers] = useState<Member[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const navigate = useNavigate();
-  
-  // ✅ 데이터 로딩
+
   useEffect(() => {
     (async function fetchMemberList() {
       try {
         const res = await instance.get('/api/admin/modify-info');
-        setMembers(res.data.users); // 서버에서 받은 회원 목록 세팅
+        setMembers(res.data.users);
       } catch (error) {
         console.error('회원 목록 불러오기 실패', error);
       }
     })();
   }, []);
 
-  // ✅ 클릭 시 열기/닫기 토글
-  const handleRowClick = useCallback((identifier: string) => {
-    if(selectedId === identifier) { /// 이전 거랑 같은거 누름
-      setSelectedId(null);
-      navigate(`/admin/members`);
-    } else {
-      setSelectedId(identifier);
-      navigate(`/admin/members/${identifier}`);   
-    }
-  }, [selectedId, navigate]);
+  const handleRowClick = useCallback(
+    (identifier: string) => {
+      if (selectedId === identifier) {
+        setSelectedId(null);
+        navigate(`/admin/members`);
+      } else {
+        setSelectedId(identifier);
+        navigate(`/admin/members/${identifier}`);
+      }
+    },
+    [selectedId, navigate]
+  );
 
   return (
-    <Container>
-      <Title>회원 목록</Title>
-      <StyledTable>
-        <Thead>
-          <Tr>
-            <Th>식별자</Th>
-            <Th>이름</Th>
-            <Th>전화번호</Th>
-            <Th>지점</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {
-            members.map((m) => (
-              (<>
-                  <Tr
-                    onClick={() => handleRowClick(m.identifier)}
-                    style={{
-                        cursor: 'pointer',
-                        backgroundColor:
-                          selectedId === m.identifier ? '#eef2ff' : 'white',
-                      }
-                    }
-                    key={m.identifier}
-                  >
-                    <Td>{m.identifier}</Td>
-                    <Td>{m.name}</Td>
-                    <Td>{m.phone}</Td>
-                    <Td>{m.branch}</Td>
-                  </Tr>
-                {
-                  m.identifier === selectedId ? <Outlet /> : null
-                }
-              </>)
-            ))
-          }
-
-              {/* 🔽 선택된 회원만 상세 정보 노출 */}
-              {/* {selectedId === m.identifier && (
-                <tr>
-                  <td colSpan={4}>
-                    <DetailBox>
-                      <DetailItem>
-                        <strong>역할:</strong> {m.role}
-                      </DetailItem>
-                      <DetailItem>
-                        <strong>성별:</strong> {m.gender}
-                      </DetailItem>
-                      <DetailItem>
-                        <strong>생년월일:</strong> {m.birth}
-                      </DetailItem>
-                      <EditButton
-                        onClick={() =>
-                          navigate(`/admin/members/${m.identifier}`)
-                        }
-                      >
-                        상세 보기
-                      </EditButton>
-                    </DetailBox>
-                  </td>
-                </tr>
-              )} */}
-        </Tbody>
-      </StyledTable>
-    </Container>
+    <Wrapper>
+      <Container>
+        <Title>회원 목록</Title>
+        <TableHeader>
+          <Cell>
+            <strong>식별자</strong>
+          </Cell>
+          <Cell>
+            <strong>이름</strong>
+          </Cell>
+          <Cell>
+            <strong>전화번호</strong>
+          </Cell>
+          <Cell>
+            <strong>지점</strong>
+          </Cell>
+        </TableHeader>
+        <TableBody>
+          {members.map((m) => (
+            <React.Fragment key={m.identifier}>
+              <TableRow
+                onClick={() => handleRowClick(m.identifier)}
+                selected={selectedId === m.identifier}
+              >
+                <Cell>{m.identifier}</Cell>
+                <Cell>{m.name}</Cell>
+                <Cell>{m.phone}</Cell>
+                <Cell>{m.branch}</Cell>
+              </TableRow>
+              {m.identifier === selectedId && (
+                <DetailWrapper>
+                  <Outlet />
+                </DetailWrapper>
+              )}
+            </React.Fragment>
+          ))}
+        </TableBody>
+      </Container>
+    </Wrapper>
   );
 };
 
 export default MemberListPage;
 
-// ✅ 스타일
+//  스타일 컴포넌트
+
+const Wrapper = styled.div`
+  width: 100%;
+  padding: 0rem 1rem 2rem;
+  background-color: #f9fafb;
+`;
 
 const Container = styled.div`
-  padding: 1rem 2rem;
+  width: 100%;
+  max-width: 100%; // ✅ 제한 없이 꽉 차게
+  padding: 0 2rem;
 `;
 
 const Title = styled.h2`
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 0 0 1rem 0; /* ⬅︎ 아래쪽만 여백 */
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  padding-left: 0.5rem;
+  color: #1f2937;
 `;
 
-const StyledTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-
-  th,
-  td {
-    padding: 0.75rem;
-    text-align: left;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  thead {
-    background-color: #f3f4f6;
-  }
+const TableHeader = styled.div`
+  display: grid;
+  grid-template-columns: 1.9fr 2fr 2.3fr 1.7fr; //
+  padding: 1rem 1.7rem;
+  background-color: #f3f4f6;
+  border-radius: 6px 6px 0 0;
+  font-weight: 600;
+  color: #374151;
+  font-size: 1rem;
 `;
 
-const DetailBox = styled.div`
-  background-color: #f9fafb;
-  padding: 1rem;
-  border-radius: 8px;
+const TableBody = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
 `;
 
-const DetailItem = styled.div`
-  font-size: 0.9rem;
-  color: #374151;
-`;
-
-const EditButton = styled.button`
-  margin-top: 1rem;
-  align-self: flex-start;
-  padding: 0.5rem 1rem;
-  background-color: #4f46e5;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+const TableRow = styled.div<{ selected: boolean }>`
+  display: grid;
+  grid-template-columns: 2fr 2fr 2.5fr 2fr;
+  padding: 1rem 1rem;
+  background-color: ${({ selected }) => (selected ? '#eef2ff' : 'white')};
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.2s;
 
   &:hover {
-    background-color: #4338ca;
+    background-color: #f1f5f9;
   }
 `;
 
-const Tbody = styled.tbody`
+const Cell = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
-`
+  align-items: center;
+  padding-left: 0.5rem; //
+  font-size: 1rem;
+  color: #374151;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
 
-const Thead = styled.thead`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: stretch;
-`
-
-const Tr = styled.tr`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: stretch;
-`
-
-const Td = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: stretch;
-  width: 34rem;
-  padding: 1rem 0 1rem 0;
-`
-
-const Th = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: stretch;
-  width: 34rem;
-  padding: 1rem 0 1rem 0;
-`
+const DetailWrapper = styled.div`
+  background-color: #ffffff;
+  padding: 1.25rem 2rem 2.5rem;
+  border-top: 1px solid #e5e7eb;
+`;
