@@ -90,14 +90,14 @@ export default MemberListPage;
 //  스타일 컴포넌트
 
 const Wrapper = styled.div`
-  width: 100%;
-  padding: 0rem 1rem 2rem;
+  width: 90%;
+  padding: 0rem 3.7rem 2rem;
   background-color: #f9fafb;
 `;
 
 const Container = styled.div`
   width: 100%;
-  max-width: 100%; // ✅ 제한 없이 꽉 차게
+  max-width: 100%; //
   padding: 0 2rem;
 `;
 
